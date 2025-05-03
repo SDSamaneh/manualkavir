@@ -24,7 +24,6 @@ class BrandController extends Controller
     public function index()
     {
         $role = Auth::user()->role;
-
         $brands = Brand::all();
         return view('dashboard/brand', compact('brands', 'role'));
     }
@@ -32,8 +31,7 @@ class BrandController extends Controller
     public function create()
     {
         $role = Auth::user()->role;
-
-        return view('dashboard/create-brand',compact('role'));
+        return view('dashboard/create-brand', compact('role'));
     }
 
     public function store(StoreUpdateCategory $request)
@@ -49,7 +47,7 @@ class BrandController extends Controller
 
         $brands = Brand::create($brands);
 
-        return $brands ? redirect()->route('brand.index')->with('success', 'دسته بندی شما با موفقیت ثبت شد') :  redirect()->route('brand.index')->with('error', 'خطایی رخ داده است');
+        return $brands ? redirect()->route('brand.index')->with('success', '  برند با موفقیت ثبت شد') :  redirect()->route('brand.index')->with('error', 'خطایی رخ داده است');
     }
 
 
@@ -58,28 +56,58 @@ class BrandController extends Controller
         //
     }
 
-
-    public function edit(Brand $brand)
+    public function edit(string $id)
     {
-        return view('brand.edit', compact('brand'));
+        $role = Auth::user()->role;
+        $brand = Brand::find($id);
+        return $brand ? view('dashboard/edit-brand', compact(['brand', 'role'])) : redirect()->route('brand.index')->with('error', ' برند مورد نظر پیدا نشد.');
     }
 
-    public function update(Request $request,  Brand $brand)
+    public function update(Request $request, string $id)
     {
+        $brand = Brand::findOrFail($id);
+
         $request->validate([
-            'name' => 'required|string|max:255'
+            'name' => 'required|string|max:255|unique:brands,name,' . $brand->id,
+            'slug' => 'required|string|unique:brands,slug,' . $brand->id,
+            'thumbnail' => 'nullable|image|mimes:jpeg,jpg,png,gif|max:2048',
         ]);
 
-        $brand->update([
+        $data = [
             'name' => $request->name,
-        ]);
+            'slug' => $request->slug,
+        ];
+
+        if ($request->hasFile('thumbnail')) {
+            // حذف عکس قبلی
+            if ($brand->thumbnail && file_exists(public_path('storage/' . $brand->thumbnail))) {
+                unlink(public_path('storage/' . $brand->thumbnail));
+            }
+
+            // ذخیره عکس جدید
+            $path = $request->file('thumbnail')->store('images/brands', 'public');
+            $data['thumbnail'] = $path;
+        }
+
+        $brand->update($data);
 
         return redirect()->route('brand.index')->with('success', 'برند با موفقیت بروزرسانی شد.');
     }
 
-    public function destroy(Brand $brand)
+
+    public function destroy(string $id)
     {
-        $brand->delete();
-        return redirect()->route('brand.index')->with('success', 'برند حذف شد.');
+        $brand = Brand::findOrFail($id);
+
+        // حذف فایل عکس
+        if ($brand->thumbnail && file_exists(public_path('storage/' . $brand->thumbnail))) {
+            unlink(public_path('storage/' . $brand->thumbnail));
+        }
+
+        $brandDestroy = $brand->delete();
+
+        return $brandDestroy
+            ? redirect()->route('brand.index')->with('success', 'برند با موفقیت حذف شد.')
+            : redirect()->route('brand.index')->with('error', 'خطایی در حذف برند رخ داده است.');
     }
 }

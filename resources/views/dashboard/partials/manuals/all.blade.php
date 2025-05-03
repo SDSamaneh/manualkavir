@@ -1,7 +1,7 @@
 <section class="py-4">
       <div class="container">
             <div class="row pb-4">
-                  <div class="col-12">
+                  <div class="col-md-12">
                         <!-- Title -->
                         <div class="d-sm-flex justify-content-sm-between align-items-center">
                               <h1 class="mb-2 mb-sm-0 h3">لیست راهنماها <span class="badge bg-primary bg-opacity-10 text-primary">{{$manualaccount}}</span></h1>
@@ -14,13 +14,16 @@
             <div class="row">
                   <div class="col-md-12 border rounded">
                         <!-- Post list table START -->
-                        <div class="table-responsive p-3">
+                        <div class="table-responsive">
                               <!-- Tabs for Brands -->
                               <ul class="nav nav-tabs" id="brandTabs" role="tablist">
                                     @foreach($brands as $brand)
                                     <li class="nav-item" role="presentation">
                                           <button class="nav-link @if($loop->first) active @endif" id="brand-{{ $brand->id }}-tab" data-bs-toggle="tab" data-bs-target="#brand-{{ $brand->id }}" type="button" role="tab">
-                                                {{ $brand->name }}
+                                                <div class="d-flex flex-wrap align-items-start justify-content-center">
+                                                      <img src="{{ asset('storage/' . $brand->thumbnail) }}" style="width: 70px;" alt="{{$brand->name}}" />
+                                                </div>
+
                                           </button>
                                     </li>
                                     @endforeach

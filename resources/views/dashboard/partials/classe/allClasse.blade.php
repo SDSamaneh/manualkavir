@@ -30,14 +30,26 @@
                                                       @foreach($classes as $classe)
                                                       <tr>
                                                             <td>
-                                                               
+
                                                                   <img class="w-50" src="{{ asset('storage/' . $classe->brand->thumbnail) }}" />
                                                             </td>
                                                             <td>
                                                                   <h6 class="course-title mt-2 mt-md-0 mb-0"><a href="#">{{$classe->name}}</a></h6>
                                                             </td>
                                                             <td>
-                                                                  <h6 class="course-title mt-2 mt-md-0 mb-0"><a href="#"><i class="fas fa-edit"></i></a></h6>
+                                                                  <div class="d-flex justify-align-content-between align-items-center gap-3">
+                                                                        <h6 class="course-title mt-2 mt-md-0 mb-0">
+                                                                              <a href="{{route('class.edit',$classe->id)}}"><i class="fas fa-edit"></i></a>
+                                                                        </h6>
+
+                                                                        <form action="{{ route('class.destroy', $classe->id) }}" method="post">
+                                                                              @csrf
+                                                                              @method('DELETE')
+                                                                              <button type="submit" class="border-0 bg-transparent">
+                                                                                    <i class="fas fa-trash text-danger"></i>
+                                                                              </button>
+                                                                        </form>
+                                                                  </div>
                                                             </td>
                                                       </tr>
                                                       @endforeach

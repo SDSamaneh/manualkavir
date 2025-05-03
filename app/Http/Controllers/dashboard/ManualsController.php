@@ -4,10 +4,10 @@ namespace App\Http\Controllers\dashboard;
 
 use App\Http\Controllers\Controller;
 
-use App\Models\classe;
+use App\Models\Classe;
 use App\Models\Brand;
 use App\Models\Manual;
-use App\Models\motormodel;
+use App\Models\MotorModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -45,8 +45,8 @@ class ManualsController extends Controller
     public function create()
     {
         $brands = Brand::all();
-        $classe = classe::all();
-        $models = motormodel::all();
+        $classe = Classe::all();
+        $models = MotorModel::all();
         $role = Auth::user()->role;
 
         return view('dashboard/create-manual', compact('classe', 'brands', 'models', 'role'));

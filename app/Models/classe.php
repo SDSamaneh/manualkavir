@@ -6,10 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-
-class classe extends Model
+class Classe extends Model
 {
-
     protected $fillable = [
         'brand_id',
         'name',

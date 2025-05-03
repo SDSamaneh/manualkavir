@@ -10,7 +10,7 @@
 
             <div class="card border mb-4">
                   <div class="card-header border-bottom p-3">
-                        <h4 class="card-header-title mb-0">پروفایل من</h4>
+                        <h4 class="card-header-title mb-0"><i class="bi bi-pencil-square"></i> پروفایل من</h4>
                   </div>
                   <div class="card-body">
                         <form method="POST" action="{{ route('profile.update') }}">

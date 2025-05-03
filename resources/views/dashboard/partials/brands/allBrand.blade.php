@@ -39,7 +39,19 @@
                                                             </td>
 
                                                             <td>
-                                                                  <h6 class="course-title mt-2 mt-md-0 mb-0"><a href="#"><i class="fas fa-edit"></i></a></h6>
+                                                                  <div class="d-flex justify-align-content-between align-items-center gap-3">
+                                                                        <h6 class="course-title mt-2 mt-md-0 mb-0">
+                                                                              <a href="{{route('brand.edit',$brand->id)}}"><i class="fas fa-edit"></i></a>
+                                                                        </h6>
+
+                                                                        <form action="{{ route('brand.destroy', $brand->id) }}" method="post">
+                                                                              @csrf
+                                                                              @method('DELETE')
+                                                                              <button type="submit" class="border-0 bg-transparent">
+                                                                                    <i class="fas fa-trash text-danger"></i>
+                                                                              </button>
+                                                                        </form>
+                                                                  </div>
                                                             </td>
 
                                                       </tr>

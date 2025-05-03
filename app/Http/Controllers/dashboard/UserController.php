@@ -18,7 +18,7 @@ class UserController extends Controller
         $userCount = User::count();
         $role = Auth::user()->role;
 
-        return view('dashboard/users', compact('users', 'userCount','role'));
+        return view('dashboard/users', compact('users', 'userCount', 'role'));
     }
 
     /**
@@ -66,6 +66,10 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $user = User::findOrFail($id);
+        $userDestroy = $user->delete();
+        return $userDestroy
+            ? redirect()->route('user.index')->with('success', 'کاربر با موفقیت حذف شد.')
+            : redirect()->route('user.index')->with('error', 'خطایی در حذف کاربر رخ داده است.');
     }
 }

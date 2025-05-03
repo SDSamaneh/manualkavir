@@ -3,12 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-
-class manual extends Model
+class Manual extends Model
 {
-
     protected $fillable = [
         'brand_id',
         'classe_id',

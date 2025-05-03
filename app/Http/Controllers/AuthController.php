@@ -43,7 +43,7 @@ class AuthController extends Controller
         //login user
         Auth::login($user);
 
-        return redirect()->route('index')->withErrors([
+        return redirect()->route('manuals.index')->withErrors([
             'success' => auth()->user()->name . ' خوش آمدید'
         ]);
     }

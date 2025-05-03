@@ -43,8 +43,14 @@
                                                             </td>
                                                             <td>
                                                                   <div class="d-flex gap-2">
-                                                                        <a href="#" class="btn btn-light btn-round mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="حذف"><i class="bi bi-trash"></i></a>
-                                                                        <a href="dashboard-post-edit.html" class="btn btn-light btn-round mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ویرایش"><i class="bi bi-pencil-square"></i></a>
+                                                                        <form action="{{ route('user.destroy', $user->id) }}" method="post">
+                                                                              @csrf
+                                                                              @method('DELETE')
+                                                                              <button type="submit" class="border-0 bg-transparent">
+                                                                                    <i class="bi bi-trash"></i>
+
+                                                                              </button>
+                                                                        </form>
                                                                   </div>
                                                             </td>
                                                       </tr>

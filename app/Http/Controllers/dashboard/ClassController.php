@@ -11,17 +11,17 @@ use Illuminate\Support\Facades\Auth;
 class ClassController extends Controller
 {
     public function getClasses($brandId)
-{
-    $classes = \App\Models\Classe::where('brand_id', $brandId)->get();
-    return response()->json($classes);
-}
+    {
+        $classes = \App\Models\Classe::where('brand_id', $brandId)->get();
+        return response()->json($classes);
+    }
 
     public function index()
     {
         $role = Auth::user()->role;
 
-        $classes = classe::with('brand')->get();
-        return view('dashboard/classe', compact('classes','role'));
+        $classes = Classe::with('brand')->get();
+        return view('dashboard/classe', compact('classes', 'role'));
     }
 
     public function create()
@@ -29,7 +29,7 @@ class ClassController extends Controller
         $brands = Brand::all();
         $role = Auth::user()->role;
 
-        return view('dashboard/create-classe', compact('brands','role'));
+        return view('dashboard/create-classe', compact('brands', 'role'));
     }
 
     public function store(Request $request)
@@ -39,23 +39,27 @@ class ClassController extends Controller
             'name' => 'required|string|max:255',
         ]);
 
-        classe::create([
+        Classe::create([
             'brand_id' => $request->brand_id,
             'name' => $request->name,
         ]);
 
         return redirect()->route('class.index')->with('success', 'کلاس با موفقیت اضافه شد.');
-
     }
 
-    public function edit(classe $class)
+    public function edit(string $id)
     {
         $brands = Brand::all();
-        return view('class.edit', compact('class', 'brands'));
+        $role = Auth::user()->role;
+        $class = Classe::find($id);
+
+        return view('dashboard/edit-classe', compact('role', 'brands', 'class'));
     }
 
-    public function update(Request $request, classe $class)
+    public function update(Request $request, string $id)
     {
+        $class = Brand::findOrFail($id);
+
         $request->validate([
             'brand_id' => 'required|exists:brands,id',
             'name' => 'required|string|max:255',
